@@ -1,0 +1,73 @@
+ #!/bin/bash
+read directory
+
+ 		echo "Распечатка дерева каталогов:" 
+ 		 find | sed 's|[^/]*/| -> |g'
+ 	echo "Справка:" 
+			
+	echo "Текстовых файлов:"
+	find $directory -type f -name "*.txt" -exec du -sh {} +
+	echo "Количество:"
+	find $directory -type f -name "*.txt" -exec du -sh {} + |wc -l
+	find $directory -type f -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+	echo "Обычных файлов:"
+	find $directory  -type f  -exec du -Sbh {} +
+	echo "Количество:"
+	find $directory  -type f  -exec du -Sh {} + | wc -l
+	find $directory -type f -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+	echo "Директорий:"
+	find $directory  -type d  -exec du -Sh {} + 
+	echo "Количество:"
+	find $directory  -type d  -exec du -Sh {} + | wc -l
+	find $directory -type d -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+	echo "Блочных файлов:"
+	find $directory  -type b  -exec du -Sh {} + 
+	echo "Количество файлов:"
+	find $directory  -type b  -exec du -Sh {} + | wc -l
+	find $directory -type b -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+
+	echo "Символьных файлов:"
+	find $directory  -type c  -exec du -Sh {} + 
+	echo "Количество:"
+	find $directory  -type c  -exec du -Sh {} + | wc -l
+	find $directory -type c -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+	echo "Символических ссылок:"
+	find $directory  -type l -exec du -Sh {} + 
+	echo "Количество:"
+	find $directory  -type l -exec du -Sh {} + | wc -l
+	find $directory  -type l -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+	echo "Туннели:"
+	find $directory  -type p  -exec du -Sh {} + 
+	echo "Количество:"
+	find $directory  -type p  -exec du -Sh {} + | wc -l
+	find $directory -type p -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+	echo "Файлы сокетов:"
+	find $directory  -type s -exec du -Sh {} + 
+	echo "Количество:"
+	find $directory  -type s  -exec du -Sh {} + | wc -l
+	find $directory -type s -print0 | xargs -0 stat --format=%s | awk '{s+=$1} END {print s" bytes"}'
+	
+
+	echo "text/x-csrc:"
+	find $directory -type f -name "*.c" -exec du -Sh {} + |wc -l
+	find $directory -type f -name "*.c" -exec du -Sh {} + 
+	echo "exe-файлы:"
+	find $directory -type f -name "*.exe" -exec du -Sh {} + |wc -l
+	find $directory -type f -name "*.exe" -exec du -Sh {} + 
+	echo "html-файлы:"
+	find $directory -type f -name "*.html" -exec du -Sh {} + |wc -l
+	find $directory -type f -name "*.html" -exec du -Sh {} + 
+
+function usage {
+local ecode=${2:-0}
+
+[[ -n $1 ]] && printf "\n $1\n" >&2
+
+	printf "\n Usage: %s <ofile> <file.c> [<cflags> ... --log [ \$(<./bldflags)]]\n\n" "${0##*/}"
+exit $ecode
+}
+	
+
+
+
+
